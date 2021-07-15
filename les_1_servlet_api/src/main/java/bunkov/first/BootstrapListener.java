@@ -16,9 +16,9 @@ public class BootstrapListener implements ServletContextListener {
 		ServletContext sc = sce.getServletContext();
 
 		ProductRepository productRepository = new ProductRepository();
-		productRepository.save(new Product(1L, "Product1"));
-		productRepository.save(new Product(2L, "Product2"));
-		productRepository.save(new Product(3L, "Product3"));
+		productRepository.save(new Product(1L, "Киви", 11));
+		productRepository.save(new Product(2L, "Арбуз",52));
+		productRepository.save(new Product(3L, "Яблоко",2));
 
 		sc.setAttribute("productRepository", productRepository);
 	}

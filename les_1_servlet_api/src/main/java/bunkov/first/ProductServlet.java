@@ -15,6 +15,7 @@ import java.util.List;
 @WebServlet(urlPatterns = "/product/*")
 public class ProductServlet extends HttpServlet {
 
+	String localhostAddress ="http://localhost:8080";
 	private ProductRepository productRepository;
 
 	@Override
@@ -28,26 +29,25 @@ public class ProductServlet extends HttpServlet {
 
 		PrintWriter wr = resp.getWriter();
 
-//		if(req.getPathInfo()==null) {
-//
-//			wr.println();
-//
-//			wr.println("<table>");
-//			for (Product p : products) {
-//				wr.println("<tr><td>" + p.getId() + "</td><td>" + p.getName() + "</td></tr>");
-//			}
-//			wr.println("</table>");
-//		}else{
-//			wr.println("<h1>Оппачки</h1>");
-//			String pathInfo = req.getPathInfo();
-//			StringBuilder sb = new StringBuilder();
-//			sb.append(pathInfo);
-//			sb.delete(0,1);
-//
-//			long id = Long.parseLong(sb.toString());
-//			wr.println(productRepository.findById(id).getName());
-//			wr.println("<h2>"+id+" - это</h2>");
-//
-//		}
+		if(req.getPathInfo()==null) {
+
+			wr.println();
+
+			wr.println("<table>");
+			for (Product p : products) {
+				wr.println("<tr><td>"+ p.getId() + "</td><td><a href="+localhostAddress+req.getContextPath()+req.getServletPath()+"/"+p.getId()+">" + p.getName() + "</a></td></tr>");//дз сервлет 2
+			}
+			wr.println("</table>");
+		}else{
+			//дз сервлет 1
+			String pathInfo = req.getPathInfo();
+			StringBuilder sb = new StringBuilder();
+			sb.append(pathInfo);
+			sb.delete(0,1);
+
+			long id = Long.parseLong(sb.toString());
+			wr.println(productRepository.findById(id).getName());
+
+		}
 	}
 }
