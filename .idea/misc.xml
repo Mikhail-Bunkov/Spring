@@ -3,6 +3,7 @@
   <component name="ExternalStorageConfigurationManager" enabled="true" />
   <component name="FrameworkDetectionExcludesConfiguration">
     <file type="web" url="file://$PROJECT_DIR$/les_1_servlet_api" />
+    <file type="web" url="file://$PROJECT_DIR$/les_3_spring_mvc" />
   </component>
   <component name="MavenProjectsManager">
     <option name="originalFiles">

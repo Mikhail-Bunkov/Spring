@@ -10,6 +10,7 @@
     <modules>
         <module>les_1_servlet_api</module>
         <module>les_2_spring_basics</module>
+        <module>les_3_spring_mvc</module>
     </modules>
     <packaging>pom</packaging>
 

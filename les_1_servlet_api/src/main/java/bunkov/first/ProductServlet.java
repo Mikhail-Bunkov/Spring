@@ -15,7 +15,7 @@ import java.util.List;
 @WebServlet(urlPatterns = "/product/*")
 public class ProductServlet extends HttpServlet {
 
-	String localhostAddress ="http://localhost:8080";
+	String localhostAddress ="http://31.31.201.222:8080";
 	private ProductRepository productRepository;
 
 	@Override

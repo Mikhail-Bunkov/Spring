@@ -15,6 +15,8 @@ public class FirstHttpServlet extends HttpServlet {
         resp.getWriter().println("<p> contextPath: "+ req.getContextPath()+"</p>");
         resp.getWriter().println("<p> servletPath: "+req.getServletPath()+"</p>");
         resp.getWriter().println("<p> pathInfo: "+req.getPathInfo()+"</p>");
+        resp.getWriter().println("<p> host: "+req.getRemoteHost()+"</p>");
+        resp.getWriter().println("<p> port: "+req.getRemotePort()+"</p>");
         resp.getWriter().println("<p> queryString: "+req.getQueryString()+"</p>");
         resp.getWriter().println("<p> param1: "+req.getParameter("param1")+"</p>");
         resp.getWriter().println("<p> param2: "+req.getParameter("param2")+"</p>");

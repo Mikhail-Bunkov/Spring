@@ -1,7 +1,7 @@
 package bunkov.first;
 
 import bunkov.first.persist.Product;
-import bunkov.first.persist.ProductRepository;
+import bunkov.first.persist.ProductRepositoryImp;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
@@ -9,7 +9,7 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 public class ConsoleProductController {
     public static void main(String[] args) {
         ApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
-        ProductRepository productRepository = context.getBean("productRepository", ProductRepository.class);
+        ProductRepositoryImp productRepository = context.getBean("productRepository", ProductRepositoryImp.class);
         Cart cart = context.getBean("cart", Cart.class);
         //дз спринг 1
         Product product1 = new Product(1L,"product1",100);
