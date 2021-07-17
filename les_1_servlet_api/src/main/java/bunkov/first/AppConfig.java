@@ -1,9 +1,10 @@
 package bunkov.first;
 
 import bunkov.first.persist.Product;
-import bunkov.first.persist.ProductRepository;
+import bunkov.first.persist.ProductRepositoryImp;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.annotation.Scope;
 
 @Configuration
@@ -16,8 +17,8 @@ public class AppConfig {
     }
 
     @Bean
-    public ProductRepository productRepository(){
-        return new ProductRepository();
+    public ProductRepositoryImp productRepository(){
+        return new ProductRepositoryImp();
     }
 
     @Bean

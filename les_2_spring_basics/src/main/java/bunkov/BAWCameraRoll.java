@@ -2,7 +2,7 @@ package bunkov;
 
 import org.springframework.stereotype.Component;
 
-@Component
+//@Component
 public class BAWCameraRoll implements CameraRoll{
     @Override
     public void processing() {

@@ -2,6 +2,7 @@ package bunkov.first;
 
 import bunkov.first.persist.Product;
 import bunkov.first.persist.ProductRepository;
+import bunkov.first.persist.ProductRepositoryImp;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
@@ -15,7 +16,7 @@ public class BootstrapListener implements ServletContextListener {
 	public void contextInitialized(ServletContextEvent sce) {
 		ServletContext sc = sce.getServletContext();
 
-		ProductRepository productRepository = new ProductRepository();
+		ProductRepository productRepository = new ProductRepositoryImp();
 		productRepository.save(new Product(1L, "Киви", 11));
 		productRepository.save(new Product(2L, "Арбуз",52));
 		productRepository.save(new Product(3L, "Яблоко",2));
