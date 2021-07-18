@@ -17,9 +17,9 @@ public class ProductRepositoryImp implements ProductRepository {
 
 	@PostConstruct
 	public void init() {
-		this.save(new Product("apple"));
-		this.save(new Product("orange"));
-		this.save(new Product("strawberry"));
+		this.save(new Product("apple",100));
+		this.save(new Product("orange",200));
+		this.save(new Product("strawberry",120));
 	}
 
 	@Override
@@ -43,6 +43,7 @@ public class ProductRepositoryImp implements ProductRepository {
 
 	@Override
 	public void delete(long id){
+//		identity.decrementAndGet();
 		productMap.remove(id);
 	}
 }

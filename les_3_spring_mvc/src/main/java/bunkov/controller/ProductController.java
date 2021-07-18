@@ -41,16 +41,33 @@ public class ProductController {
 
     @GetMapping("/{id}")
     public String editProduct(@PathVariable("id") Long id, Model model) {
-        // TODO
+        Product product = productRepository.findById(id);
+        model.addAttribute("product", new Product(product.getId(),product.getName(), product.getCost()));
+        delete(id, model);
+
+
         return "product_form";
     }
 
     @PostMapping
     public String update(Product product) {
+        logger.info("Trying to saving product");
+
+        for (Product productFromRepository : productRepository.findAll() ) {
+            if(product.getName().equals(productFromRepository.getName())){
+                return "redirect:/product";
+            }
+        }
+
         logger.info("Saving product");
 
-        // TODO
         productRepository.save(product);
+        return "redirect:/product";
+    }
+
+    @GetMapping("/delete/{id}")
+    public String delete(@PathVariable("id") Long id, Model model){
+        productRepository.delete(productRepository.findById(id).getId());
         return "redirect:/product";
     }
 }
