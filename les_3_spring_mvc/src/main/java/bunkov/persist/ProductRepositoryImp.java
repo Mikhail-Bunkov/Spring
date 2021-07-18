@@ -43,7 +43,7 @@ public class ProductRepositoryImp implements ProductRepository {
 
 	@Override
 	public void delete(long id){
-//		identity.decrementAndGet();
+		identity.decrementAndGet();
 		productMap.remove(id);
 	}
 }
