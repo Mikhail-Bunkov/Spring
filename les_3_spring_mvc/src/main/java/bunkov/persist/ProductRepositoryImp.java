@@ -41,6 +41,15 @@ public class ProductRepositoryImp implements ProductRepository {
 		productMap.put(product.getId(), product);
 	}
 
+//	public void idCorrector(){
+//
+//		if(	productMap.containsKey(identity.longValue())){
+//			for (int i = 0; i < Integer.MAX_VALUE ; i++) {
+//				identity.incrementAndGet();
+//			}
+//		}
+//	}
+
 	@Override
 	public void delete(long id){
 		identity.decrementAndGet();
