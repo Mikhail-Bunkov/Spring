@@ -29,6 +29,7 @@ public class PostProxyInvokerContextListener implements ApplicationListener<Cont
                         Object bean = context.getBean(name);
                         Method currentMethod = bean.getClass().getMethod(method.getName(), method.getParameterTypes());
                         currentMethod.invoke(bean);
+
                     }
                 }
             } catch (Exception e) {
