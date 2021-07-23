@@ -2,7 +2,11 @@ package bunkov.persist;
 
 public class Product {
 	private Long id;
+//	@NotBlank
 	private String name;
+
+//	@Min(value = 100)
+//	@Max(value = 10000)
 	private Integer cost;
 
 	public Product() {
