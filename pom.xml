@@ -11,8 +11,10 @@
         <module>les_1_servlet_api</module>
         <module>les_2_spring_basics</module>
         <module>les_3_spring_mvc</module>
-        <module>les_4_spring_boot</module>
+        <module>less_4_spring_boot</module>
         <module>Spring-consumer</module>
+        <module>less_5_hibernate</module>
+
     </modules>
     <packaging>pom</packaging>
 
