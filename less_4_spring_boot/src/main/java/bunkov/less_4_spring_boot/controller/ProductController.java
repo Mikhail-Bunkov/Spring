@@ -1,6 +1,7 @@
-package bunkov.controller;
+package bunkov.less_4_spring_boot.controller;
 
-import bunkov.persist.*;
+import bunkov.less_4_spring_boot.persist.Product;
+import bunkov.less_4_spring_boot.persist.ProductRepositoryImp;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,7 +65,7 @@ public class ProductController {
         return "redirect:/product";
     }
 
-    @GetMapping("/{id}/delete")
+    @DeleteMapping("/{id}")
     public String delete(@PathVariable("id") Long id, Model model){
         productRepository.delete(productRepository.findById(id).get().getId());
         return "redirect:/product";

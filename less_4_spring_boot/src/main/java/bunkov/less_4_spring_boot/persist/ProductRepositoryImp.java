@@ -1,4 +1,4 @@
-package bunkov.persist;
+package bunkov.less_4_spring_boot.persist;
 
 import org.springframework.stereotype.Repository;
 
@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
+
 @Repository
 public class ProductRepositoryImp implements ProductRepository {
 
@@ -53,7 +54,7 @@ public class ProductRepositoryImp implements ProductRepository {
 
 	@Override
 	public void delete(long id){
-		identity.decrementAndGet();
+//		identity.decrementAndGet();
 		productMap.remove(id);
 	}
 }

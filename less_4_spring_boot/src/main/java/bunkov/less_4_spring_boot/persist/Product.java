@@ -1,4 +1,4 @@
-package bunkov.persist;
+package bunkov.less_4_spring_boot.persist;
 
 public class Product {
 	private Long id;
