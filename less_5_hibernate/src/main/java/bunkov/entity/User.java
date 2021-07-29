@@ -1,6 +1,8 @@
 package bunkov.entity;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -21,8 +23,8 @@ public class User {
     @Column(nullable = false)
     private Integer age;
 
-//    @Transient // если не нужна запись каких либо полей в бд
-//    private String foo;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Contact> contacts = new ArrayList<>();
 
     public User() {
     }
@@ -31,6 +33,14 @@ public class User {
         this.id = id;
         this.username = username;
         this.age = age;
+    }
+
+    public List<Contact> getContacts() {
+        return contacts;
+    }
+
+    public void setContacts(List<Contact> contacts) {
+        this.contacts = contacts;
     }
 
     public Long getId() {
@@ -55,6 +65,11 @@ public class User {
 
     public void setAge(Integer age) {
         this.age = age;
+    }
+
+    public void addContact(Contact contact){
+        contact.setUser(this);
+        contacts.add(contact);
     }
 
     @Override

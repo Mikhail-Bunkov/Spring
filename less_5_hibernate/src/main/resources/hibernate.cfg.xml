@@ -18,5 +18,6 @@
 
         <mapping class="bunkov.entity.User"/>
         <mapping class="bunkov.entity.Product"/>
+        <mapping class="bunkov.entity.Contact"/>
     </session-factory>
 </hibernate-configuration>
