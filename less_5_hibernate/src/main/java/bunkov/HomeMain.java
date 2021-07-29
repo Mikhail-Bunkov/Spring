@@ -16,15 +16,6 @@ public class HomeMain {
 
         ProductDao productDao = new ProductDao(emFactory);
 
-        List.of(
-                new Product(null,"orange",200),
-                new Product(null,"strawberry",190),
-                new Product(null,"pineapple",450)
-        ).forEach(productDao::update);
-        Product product = new Product(null, "banana", 150);
-        productDao.update(product);
 
-        System.out.println(productDao.select(2L));
-        productDao.closeEM();
     }
 }
