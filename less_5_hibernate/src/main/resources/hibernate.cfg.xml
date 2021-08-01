@@ -16,9 +16,9 @@
         <property name="hibernate.dialect">org.hibernate.dialect.MySQL8Dialect</property><!-- Может съесть дофига производительности -->
         <property name="hibernate.format_sql">true</property><!--________________________________________________________________ -->
 
-        <mapping class="bunkov.entity.User"/>
-        <mapping class="bunkov.entity.Product"/>
-        <mapping class="bunkov.entity.Contact"/>
+<!--        <mapping class="bunkov.entity.User"/>-->
+<!--        <mapping class="bunkov.entity.Product"/>-->
+<!--        <mapping class="bunkov.entity.Contact"/>-->
         <mapping class="bunkov.homework.entity.Product"/>
         <mapping class="bunkov.homework.entity.Buyer"/>
 

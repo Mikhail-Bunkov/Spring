@@ -2,6 +2,8 @@ package bunkov.homework;
 
 import bunkov.homework.entity.Buyer;
 import bunkov.homework.entity.Product;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -9,41 +11,44 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Function;
-
+@Component
 public class ProductDao {
-    private final EntityManagerFactory emFactory;
+    private final EntityManagerWorker emFactory;
 
+    @Autowired
     public ProductDao(EntityManagerWorker emFactory) {
-        this.emFactory = emFactory.getEntityManagerFactory();
+        this.emFactory = emFactory;
     }
 
     public List<Product> findAll(){
-        return executeForEntityManager(
+        return emFactory.executeForEntityManager(
                 em -> em.createQuery("select p from Product p", Product.class).getResultList()
         );
     }
 
     public Optional<Product> findById(long id){
-        return executeForEntityManager(
-                em -> Optional.ofNullable(em.find(Product.class, id))
-        );
+        return emFactory.executeForEntityManager(
+                em -> Optional.ofNullable(em.createQuery("select p from Product p join fetch p.buyer where p.id = :id", Product.class)
+                        .setParameter("id", id)
+                        .getSingleResult()
+                ));
 
     }
 
     public void insert(Product product){
-        executeInTransaction(
+        emFactory.executeInTransaction(
                 em -> em.persist(product)
         );
     }
 
     public void update(Product product){
-        executeInTransaction(
+        emFactory.executeInTransaction(
                 em -> em.merge(product)
         );
     }
 
     public void delete(long id){
-        executeInTransaction(
+        emFactory.executeInTransaction(
                 em -> em.createQuery("delete from Product where id = :id")
                         .setParameter("id",id)
                         .executeUpdate()

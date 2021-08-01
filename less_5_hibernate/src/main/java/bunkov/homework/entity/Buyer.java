@@ -54,4 +54,13 @@ public class Buyer {
         product.setBuyer(this);
         productList.add(product);
     }
+
+    @Override
+    public String toString() {
+        return "Buyer{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", productList=" + productList +
+                '}';
+    }
 }
