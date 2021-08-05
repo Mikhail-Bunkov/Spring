@@ -1,6 +1,6 @@
 package bunkov;
 
-import bunkov.entity.Product;
+import bunkov.homework.entity.Product;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import java.util.List;

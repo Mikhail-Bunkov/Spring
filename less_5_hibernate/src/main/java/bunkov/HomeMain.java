@@ -1,6 +1,6 @@
 package bunkov;
 
-import bunkov.entity.Product;
+//import bunkov.entity.Product;
 import org.hibernate.cfg.Configuration;
 
 
