@@ -1,13 +1,28 @@
 package bunkov.less_4_spring_boot.persist;
 
+import javax.persistence.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import java.math.BigDecimal;
+
+@Entity
+@Table
 public class Product {
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-//	@NotBlank
+
+	@NotBlank
+	@Column(nullable = false)
 	private String name;
 
-//	@Min(value = 100)
-//	@Max(value = 10000)
-	private Integer cost;
+	@Min(value = 100)
+	@Max(value = 10000)
+	@NotBlank
+	@Column(nullable = false)
+	private BigDecimal cost;
 
 	public Product() {
 	}
@@ -15,7 +30,7 @@ public class Product {
 	public Product(String name){
 		this.name = name;
 	}
-	public Product(String name, Integer cost){
+	public Product(String name, BigDecimal cost){
 		this.name = name;
 		this.cost = cost;
 	}
@@ -28,10 +43,10 @@ public class Product {
 		this.id = id;
 	}
 
-	public Integer getCost(){
+	public BigDecimal getCost(){
 		return cost;
 	}
-	public void setCost(Integer cost){
+	public void setCost(BigDecimal cost){
 		this.cost = cost;
 	}
 
@@ -43,7 +58,7 @@ public class Product {
 		this.name = name;
 	}
 
-	public Product(Long id, String name, Integer cost) {
+	public Product(Long id, String name, BigDecimal cost) {
 		this.id = id;
 		this.name = name;
 		this.cost = cost;

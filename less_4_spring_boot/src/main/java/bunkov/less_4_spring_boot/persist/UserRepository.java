@@ -3,6 +3,8 @@ package bunkov.less_4_spring_boot.persist;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.PostConstruct;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -11,6 +13,10 @@ import java.util.concurrent.atomic.AtomicLong;
 
 @Repository
 public class UserRepository {
+
+
+    @PersistenceContext
+    private EntityManager em;
 
     // Identity Map
     private Map<Long, User> userMap = new ConcurrentHashMap<>();
