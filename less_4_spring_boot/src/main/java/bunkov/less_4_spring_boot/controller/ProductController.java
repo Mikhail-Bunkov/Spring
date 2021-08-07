@@ -36,14 +36,20 @@ public class ProductController {
 
         logger.info("Product list page requested");
 
-        List<Product> products = productNameFilter
-                .map(productRepository::findByNameStartsWith)
-                .orElseGet(productRepository::findAll);
+
+        List<Product> products = productRepository.filterProducts(productNameFilter.orElse(null),
+                productMinCostFilter.orElse(null),
+                productMaxCostFilter.orElse(null));
 
 
-        if(productMinCostFilter.isPresent() && productMaxCostFilter.isPresent()){
-            products = productRepository.findProductByCostBetween(productMinCostFilter.get(), productMaxCostFilter.get());
-        }
+//        List<Product> products = productNameFilter
+//                .map(productRepository::findByNameStartsWith)
+//                .orElseGet(productRepository::findAll);
+//
+//
+//        if(productMinCostFilter.isPresent() && productMaxCostFilter.isPresent()){
+//            products = productRepository.findProductByCostBetween(productMinCostFilter.get(), productMaxCostFilter.get());
+//        }
 
         model.addAttribute("products", products);
         return "products";

@@ -45,12 +45,7 @@
           <input type="text" class="form-control" id="productNameFilter" th:value="${param.productNameFilter}"
                  name="productNameFilter" placeholder="Product name filter">
         </div>
-        <button type="submit" class="btn btn-primary mb-2">Apply</button>
-      </form>
-    </div>
 
-    <div class="col-12 mt-3">
-      <form class="form-inline" th:method="get">
         <div class="form-group mb-2 mr-2">
           <label for="productMinCostFilter" class="sr-only">Product min cost filter</label>
           <input type="number" class="form-control" id="productMinCostFilter" th:value="${param.productMinCostFilter}"
