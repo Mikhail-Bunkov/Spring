@@ -71,7 +71,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="product : ${products}">
+        <tr th:if="${products.hasContent()}" th:each="product : ${products.content}">
           <th scope="row" th:text="${product.id}">1</th>
           <td th:text="${product.name}">Alex</td>
           <th scope="row" th:text="${product.cost}">1</th>
@@ -83,8 +83,37 @@
 <!--            <a class="btn btn-danger" th:href="@{/product/{id}/delete(id = ${product.id})}"><i class="far fa-trash-alt"></i></a>-->
           </td>
         </tr>
+        <tr th:unless="${products.hasContent()}">
+          <td colspan="4"> No Data</td>
+        </tr>
+
+
         </tbody>
       </table>
+    </div>
+    <div class="col-12">
+      <nav aria-label="...">
+        <ul class="pagination">
+          <li class="page-item disabled">
+            <a class="page-link" href="#" tabindex="-1">Previous</a>
+          </li>
+
+
+          <li th:each="num : ${#numbers.sequence(1,products.totalPages)}"
+              th:classappend="${num == products.number + 1} ? 'active'"
+              class="page-item">
+            <a class="page-link"
+               th:text="${num}"
+               th:href="@{/product(page=${num}, size =${products.size}, productNameFilter = ${param.productNameFilter},
+                minCost = ${param.productMinCostFilter}, maxCost = ${param.productMaxCostFilter})}">1</a>
+          </li>
+
+
+          <li class="page-item">
+            <a class="page-link" href="#">Next</a>
+          </li>
+        </ul>
+      </nav>
     </div>
   </div>
 </div>

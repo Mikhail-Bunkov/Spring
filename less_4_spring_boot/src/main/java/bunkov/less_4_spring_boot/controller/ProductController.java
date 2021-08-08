@@ -2,9 +2,12 @@ package bunkov.less_4_spring_boot.controller;
 
 import bunkov.less_4_spring_boot.persist.Product;
 import bunkov.less_4_spring_boot.persist.ProductRepositoryImp;
+import bunkov.less_4_spring_boot.persist.ProductSpecifications;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -32,14 +35,31 @@ public class ProductController {
     public String listPage(Model model,
                            @RequestParam("productNameFilter")Optional<String> productNameFilter,
                            @RequestParam("productMinCostFilter")Optional<Integer> productMinCostFilter,
-                           @RequestParam("productMaxCostFilter")Optional<Integer> productMaxCostFilter) {
+                           @RequestParam("productMaxCostFilter")Optional<Integer> productMaxCostFilter,
+                           @RequestParam("page")Optional<Integer> page,
+                           @RequestParam("size")Optional<Integer>size) {
 
         logger.info("Product list page requested");
 
 
-        List<Product> products = productRepository.filterProducts(productNameFilter.orElse(null),
-                productMinCostFilter.orElse(null),
-                productMaxCostFilter.orElse(null));
+        Specification<Product> spec = Specification.where(null);
+        if(productNameFilter.isPresent()&&!productNameFilter.get().isBlank()){
+            spec = spec.and(ProductSpecifications.productNamePrefix(productNameFilter.get()));
+        }
+        if(productMinCostFilter.isPresent()){
+            spec = spec.and(ProductSpecifications.minCost(productMinCostFilter.get()));
+        }
+        if(productMaxCostFilter.isPresent()){
+            spec = spec.and(ProductSpecifications.maxCost(productMaxCostFilter.get()));
+        }
+
+
+
+
+
+//        List<Product> products = productRepository.filterProducts(productNameFilter.orElse(null),
+//                productMinCostFilter.orElse(null),
+//                productMaxCostFilter.orElse(null));
 
 
 //        List<Product> products = productNameFilter
@@ -51,7 +71,12 @@ public class ProductController {
 //            products = productRepository.findProductByCostBetween(productMinCostFilter.get(), productMaxCostFilter.get());
 //        }
 
-        model.addAttribute("products", products);
+
+
+
+        model.addAttribute("products", productRepository.findAll(spec,
+                PageRequest.of(page.orElse(1)-1,size.orElse(3))));
+
         return "products";
     }
 
