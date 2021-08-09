@@ -64,9 +64,18 @@
       <table class="table table-bordered my-2">
         <thead>
         <tr>
-          <th scope="col">Id</th>
-          <th scope="col">Name</th>
-          <th scope="col">Cost</th>
+          <th scope="col">Id
+            <a th:href="@{/product(page=${param.page}, size =${products.size}, productNameFilter = ${param.productNameFilter},
+                minCost = ${param.productMinCostFilter}, maxCost = ${param.productMaxCostFilter}, sortField='id')}"><i class="fa fa-sort-down"></i></a>
+          </th>
+          <th scope="col">Name
+            <a th:href="@{/product(page=${param.page}, size =${products.size}, productNameFilter = ${param.productNameFilter},
+                minCost = ${param.productMinCostFilter}, maxCost = ${param.productMaxCostFilter}, sortField='name')}"><i class="fa fa-sort-down"></i></a>
+          </th>
+          <th scope="col">Cost
+            <a th:href="@{/product(page=${param.page}, size =${products.size}, productNameFilter = ${param.productNameFilter},
+                minCost = ${param.productMinCostFilter}, maxCost = ${param.productMaxCostFilter}, sortField='cost')}"><i class="fa fa-sort-down"></i></a>
+          </th>
           <th scope="col">Actions</th>
         </tr>
         </thead>
@@ -94,8 +103,12 @@
     <div class="col-12">
       <nav aria-label="...">
         <ul class="pagination">
-          <li class="page-item disabled">
-            <a class="page-link" href="#" tabindex="-1">Previous</a>
+
+          <li class="page-item" th:classappend="${products.isFirst()} ? 'disable' : 'active'">
+            <a class="page-link"
+               th:href="@{/product(page-1=${param.page}, size =${products.size}, productNameFilter = ${param.productNameFilter},
+                minCost = ${param.productMinCostFilter}, maxCost = ${param.productMaxCostFilter}, sortField=${param.sortField})}"
+               tabindex="-1">Previous</a>
           </li>
 
 
@@ -105,13 +118,17 @@
             <a class="page-link"
                th:text="${num}"
                th:href="@{/product(page=${num}, size =${products.size}, productNameFilter = ${param.productNameFilter},
-                minCost = ${param.productMinCostFilter}, maxCost = ${param.productMaxCostFilter})}">1</a>
+                minCost = ${param.productMinCostFilter}, maxCost = ${param.productMaxCostFilter}, sortField=${param.sortField})}">1</a>
           </li>
 
 
-          <li class="page-item">
-            <a class="page-link" href="#">Next</a>
+          <li class="page-item" th:classappend="${products.isLast()} ? 'disable' : 'active'">
+            <a class="page-link"
+               th:href="@{/product(page+1=${param.page}, size =${products.size}, productNameFilter = ${param.productNameFilter},
+                minCost = ${param.productMinCostFilter}, maxCost = ${param.productMaxCostFilter}, sortField=${param.sortField})}"
+            >Next</a>
           </li>
+
         </ul>
       </nav>
     </div>

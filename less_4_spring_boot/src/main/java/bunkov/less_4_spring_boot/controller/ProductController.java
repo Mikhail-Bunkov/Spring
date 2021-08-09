@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -37,7 +38,8 @@ public class ProductController {
                            @RequestParam("productMinCostFilter")Optional<Integer> productMinCostFilter,
                            @RequestParam("productMaxCostFilter")Optional<Integer> productMaxCostFilter,
                            @RequestParam("page")Optional<Integer> page,
-                           @RequestParam("size")Optional<Integer>size) {
+                           @RequestParam("size")Optional<Integer>size,
+                           @RequestParam("sortField") Optional<String> sortField){
 
         logger.info("Product list page requested");
 
@@ -75,7 +77,8 @@ public class ProductController {
 
 
         model.addAttribute("products", productRepository.findAll(spec,
-                PageRequest.of(page.orElse(1)-1,size.orElse(3))));
+                PageRequest.of(page.orElse(1)-1,size.orElse(3),
+                        Sort.by(sortField.orElse("id")))));
 
         return "products";
     }
