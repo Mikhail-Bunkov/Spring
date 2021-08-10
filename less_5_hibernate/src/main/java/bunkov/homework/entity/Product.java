@@ -1,9 +1,12 @@
 package bunkov.homework.entity;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
-@Table(name = "products_homework")
+@Table(name = "product")
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -13,11 +16,19 @@ public class Product {
     private String name;
 
     @Column(nullable = false)
-    private Integer cost;
+    private BigDecimal cost;
 
-    @JoinColumn(name = "buyer_id")
-    @ManyToOne
-    private Buyer buyer;
+    @OneToMany(mappedBy = "product")
+    private List<LineItem> lineItems = new ArrayList<>();
+
+
+//    @JoinTable(
+//            name = "line_item",
+//            joinColumns = {@JoinColumn(name = "product_id")},
+//            inverseJoinColumns = {@JoinColumn(name = "buyer_id")}
+//    )
+//    @ManyToMany
+//    private List<Buyer> buyers;
 
     public Long getId() {
         return id;
@@ -27,11 +38,11 @@ public class Product {
         this.id = id;
     }
 
-    public Integer getCost(){
+    public BigDecimal getCost() {
         return cost;
     }
 
-    public void setCost(Integer cost){
+    public void setCost(BigDecimal cost) {
         this.cost = cost;
     }
 
@@ -43,31 +54,31 @@ public class Product {
         this.name = name;
     }
 
-    public Product(Long id, String name, Integer cost, Buyer buyer) {
+    public List<LineItem> getLineItems() {
+        return lineItems;
+    }
+
+    public void setLineItems(List<LineItem> buyers) {
+        this.lineItems = buyers;
+    }
+
+    public Product(Long id, String name, BigDecimal cost) {
         this.id = id;
         this.name = name;
         this.cost = cost;
-        this.buyer = buyer;
     }
 
     public Product() {
     }
 
-    public Buyer getBuyer() {
-        return buyer;
-    }
 
-    public void setBuyer(Buyer buyer) {
-        this.buyer = buyer;
-    }
 
     @Override
     public String toString() {
         return "Product{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", cost=" + cost +
-                ", buyer=" + buyer.getName() +
+                ", cost=" + cost.toString() +
                 '}';
     }
 }

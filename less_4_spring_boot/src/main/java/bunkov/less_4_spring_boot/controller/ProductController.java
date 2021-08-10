@@ -8,8 +8,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+
+import javax.validation.Valid;
+import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/product")
@@ -24,10 +29,29 @@ public class ProductController {
     }
 
     @GetMapping
-    public String listPage(Model model) {
+    public String listPage(Model model,
+                           @RequestParam("productNameFilter")Optional<String> productNameFilter,
+                           @RequestParam("productMinCostFilter")Optional<Integer> productMinCostFilter,
+                           @RequestParam("productMaxCostFilter")Optional<Integer> productMaxCostFilter) {
+
         logger.info("Product list page requested");
 
-        model.addAttribute("products", productRepository.findAll());
+
+        List<Product> products = productRepository.filterProducts(productNameFilter.orElse(null),
+                productMinCostFilter.orElse(null),
+                productMaxCostFilter.orElse(null));
+
+
+//        List<Product> products = productNameFilter
+//                .map(productRepository::findByNameStartsWith)
+//                .orElseGet(productRepository::findAll);
+//
+//
+//        if(productMinCostFilter.isPresent() && productMaxCostFilter.isPresent()){
+//            products = productRepository.findProductByCostBetween(productMinCostFilter.get(), productMaxCostFilter.get());
+//        }
+
+        model.addAttribute("products", products);
         return "products";
     }
 
@@ -43,31 +67,24 @@ public class ProductController {
     public String editProduct(@PathVariable("id") Long id, Model model) {
 //        Product product = productRepository.findById(id);
         model.addAttribute("product", productRepository.findById(id).orElseThrow(()-> new NotFoundException("Product not found")));
-        delete(id, model);
-
-
         return "product_form";
     }
 
     @PostMapping
-    public String update(Product product) {
+    public String update(@Valid Product product, BindingResult result) {
         logger.info("Trying to saving product");
 
-        for (Product productFromRepository : productRepository.findAll() ) {
-            if(product.getName().equals(productFromRepository.getName())){
-                return "redirect:/product";
-            }
+        if(result.hasErrors()){
+            return "product_form";
         }
-
-        logger.info("Saving product");
 
         productRepository.save(product);
         return "redirect:/product";
     }
 
     @DeleteMapping("/{id}")
-    public String delete(@PathVariable("id") Long id, Model model){
-        productRepository.delete(productRepository.findById(id).get().getId());
+    public String delete(@PathVariable("id") Long id){
+        productRepository.deleteById(id);
         return "redirect:/product";
     }
 

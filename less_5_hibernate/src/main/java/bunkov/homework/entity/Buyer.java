@@ -15,8 +15,11 @@ public class Buyer {
     @Column(length = 100,nullable = false)
     private String name;
 
-    @OneToMany(mappedBy = "buyer", cascade = CascadeType.ALL)
-    private List<Product> productList = new ArrayList<>();
+    @OneToMany(mappedBy = "buyer")
+    private List<LineItem> lineItems = new ArrayList<>();
+
+//    @ManyToMany(mappedBy = "buyers")
+//    private List<Product> productList = new ArrayList<>();
 
     public Buyer() {
     }
@@ -42,25 +45,32 @@ public class Buyer {
         this.name = name;
     }
 
-    public List<Product> getProductList() {
-        return productList;
+//    public List<Product> getProductList() {
+//        return productList;
+//    }
+
+//    public void setProductList(List<Product> productList) {
+//        this.productList = productList;
+
+    public List<LineItem> getLineItems() {
+        return lineItems;
     }
 
-    public void setProductList(List<Product> productList) {
-        this.productList = productList;
+    public void setLineItems(List<LineItem> products) {
+        this.lineItems = products;
     }
+//    }
 
-    public void addProduct(Product product){
-        product.setBuyer(this);
-        productList.add(product);
-    }
+//    public void addProduct(Product product){
+//        product.setBuyers(List.of(this));
+//        productList.add(product);
+//    }
 
     @Override
     public String toString() {
         return "Buyer{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", productList=" + productList +
                 '}';
     }
 }

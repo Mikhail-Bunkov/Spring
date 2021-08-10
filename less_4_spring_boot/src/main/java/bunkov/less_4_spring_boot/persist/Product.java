@@ -1,23 +1,30 @@
 package bunkov.less_4_spring_boot.persist;
 
-public class Product {
-	private Long id;
-//	@NotBlank
-	private String name;
+import javax.persistence.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import java.math.BigDecimal;
 
+@Entity
+@Table(name = "products")
+public class Product {
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+
+	@NotBlank
+	@Column(nullable = false)
+	private String name;
+//
 //	@Min(value = 100)
 //	@Max(value = 10000)
+//	@NotBlank
+	@Column(nullable = false)
 	private Integer cost;
 
 	public Product() {
-	}
-
-	public Product(String name){
-		this.name = name;
-	}
-	public Product(String name, Integer cost){
-		this.name = name;
-		this.cost = cost;
 	}
 
 	public Long getId() {
@@ -28,10 +35,11 @@ public class Product {
 		this.id = id;
 	}
 
-	public Integer getCost(){
+	public Integer getCost() {
 		return cost;
 	}
-	public void setCost(Integer cost){
+
+	public void setCost(Integer cost) {
 		this.cost = cost;
 	}
 

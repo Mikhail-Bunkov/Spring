@@ -1,60 +1,22 @@
 package bunkov.less_4_spring_boot.persist;
 
-import org.springframework.stereotype.Repository;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
-import javax.annotation.PostConstruct;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.atomic.AtomicLong;
 
-@Repository
-public class ProductRepositoryImp implements ProductRepository {
+public interface ProductRepositoryImp extends JpaRepository<Product, Long> {
 
-	private final Map<Long, Product> productMap = new ConcurrentHashMap<>();
+    List<Product> findByNameStartsWith(String prefix);
+    List<Product> findProductByCostBetween(Integer min, Integer max);
 
-	private final AtomicLong identity = new AtomicLong(0);
+    @Query("select p from Product p " +
+            "where ( p.name like CONCAT(:prefix, '%') or :prefix is null) and " +
+            "( p.cost >= :min or :min is null) and " +
+            "( p.cost <= :max or :max is null)")
+    List<Product> filterProducts(@Param("prefix") String prefix,
+                                 @Param("min") Integer min,
+                                 @Param("max") Integer max);
 
-	@PostConstruct
-	public void init() {
-		this.save(new Product("apple",100));
-		this.save(new Product("orange",200));
-		this.save(new Product("strawberry",120));
-	}
-
-	@Override
-	public List<Product> findAll(){
-		return new ArrayList<>(productMap.values());
-	}
-
-	@Override
-	public Optional<Product> findById(long id){
-		return Optional.ofNullable(productMap.get(id));
-	}
-
-	@Override
-	public void save(Product product){
-		if(product.getId()==null) {
-			long id = identity.incrementAndGet();
-			product.setId(id);
-		}
-		productMap.put(product.getId(), product);
-	}
-
-//	public void idCorrector(){
-//
-//		if(	productMap.containsKey(identity.longValue())){
-//			for (int i = 0; i < Integer.MAX_VALUE ; i++) {
-//				identity.incrementAndGet();
-//			}
-//		}
-//	}
-
-	@Override
-	public void delete(long id){
-//		identity.decrementAndGet();
-		productMap.remove(id);
-	}
 }
