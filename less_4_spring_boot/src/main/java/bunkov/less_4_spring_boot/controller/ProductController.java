@@ -3,6 +3,7 @@ package bunkov.less_4_spring_boot.controller;
 import bunkov.less_4_spring_boot.persist.Product;
 import bunkov.less_4_spring_boot.persist.ProductRepositoryImp;
 import bunkov.less_4_spring_boot.persist.ProductSpecifications;
+import bunkov.less_4_spring_boot.service.ProductService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,43 +18,35 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
-import java.util.List;
-import java.util.Optional;
 
 @Controller
 @RequestMapping("/product")
 public class ProductController {
     private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
-    private final ProductRepositoryImp productRepository;
+    private final ProductService productService;
 
     @Autowired
-    public ProductController(ProductRepositoryImp productRepository) {
-        this.productRepository = productRepository;
+    public ProductController(ProductService productService) {
+        this.productService = productService;
     }
 
     @GetMapping
     public String listPage(Model model,
-                           @RequestParam("productNameFilter")Optional<String> productNameFilter,
-                           @RequestParam("productMinCostFilter")Optional<Integer> productMinCostFilter,
-                           @RequestParam("productMaxCostFilter")Optional<Integer> productMaxCostFilter,
-                           @RequestParam("page")Optional<Integer> page,
-                           @RequestParam("size")Optional<Integer>size,
-                           @RequestParam("sortField") Optional<String> sortField){
+                           ProductListParams productListParams){
 
         logger.info("Product list page requested");
 
-
-        Specification<Product> spec = Specification.where(null);
-        if(productNameFilter.isPresent()&&!productNameFilter.get().isBlank()){
-            spec = spec.and(ProductSpecifications.productNamePrefix(productNameFilter.get()));
-        }
-        if(productMinCostFilter.isPresent()){
-            spec = spec.and(ProductSpecifications.minCost(productMinCostFilter.get()));
-        }
-        if(productMaxCostFilter.isPresent()){
-            spec = spec.and(ProductSpecifications.maxCost(productMaxCostFilter.get()));
-        }
+//        Specification<Product> spec = Specification.where(null);
+//        if(productNameFilter.isPresent()&&!productNameFilter.get().isBlank()){
+//            spec = spec.and(ProductSpecifications.productNamePrefix(productNameFilter.get()));
+//        }
+//        if(productMinCostFilter.isPresent()){
+//            spec = spec.and(ProductSpecifications.minCost(productMinCostFilter.get()));
+//        }
+//        if(productMaxCostFilter.isPresent()){
+//            spec = spec.and(ProductSpecifications.maxCost(productMaxCostFilter.get()));
+//        }
 
 
 
@@ -73,12 +66,7 @@ public class ProductController {
 //            products = productRepository.findProductByCostBetween(productMinCostFilter.get(), productMaxCostFilter.get());
 //        }
 
-
-
-
-        model.addAttribute("products", productRepository.findAll(spec,
-                PageRequest.of(page.orElse(1)-1,size.orElse(3),
-                        Sort.by(sortField.orElse("id")))));
+       model.addAttribute("products", productService.findWithFilter(productListParams));
 
         return "products";
     }
@@ -93,8 +81,8 @@ public class ProductController {
 
     @GetMapping("/{id}")
     public String editProduct(@PathVariable("id") Long id, Model model) {
-//        Product product = productRepository.findById(id);
-        model.addAttribute("product", productRepository.findById(id).orElseThrow(()-> new NotFoundException("Product not found")));
+
+        model.addAttribute("product", productService.findById(id).orElseThrow(()-> new NotFoundException("Product not found")));
         return "product_form";
     }
 
@@ -106,13 +94,13 @@ public class ProductController {
             return "product_form";
         }
 
-        productRepository.save(product);
+        productService.save(product);
         return "redirect:/product";
     }
 
     @DeleteMapping("/{id}")
     public String delete(@PathVariable("id") Long id){
-        productRepository.deleteById(id);
+        productService.deleteById(id);
         return "redirect:/product";
     }
 
