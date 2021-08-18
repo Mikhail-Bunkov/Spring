@@ -60,10 +60,10 @@ public class UserController {
         if (result.hasErrors()) {
             return "user_form";
         }
-//        if (!user.getPassword().equals(user.getRepeatPassword())) {
-//            result.rejectValue("password", "", "Repeated password is not correct");
-//            return "user_form";
-//        }
+        if (!user.getPassword().equals(user.getRepeatPassword())) {
+            result.rejectValue("password", "", "Repeated password is not correct");
+            return "user_form";
+        }
 
 //        if (user.getAge() > 25) {
 //            result.rejectValue("age", "", "Error message");
